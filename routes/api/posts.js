@@ -71,11 +71,19 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then(profile => {
-      Post.findById(req.params.id).then(post => {
-        //check for post owner
-        if (post.user) {
-        }
-      });
+      Post.findById(req.params.id)
+        .then(post => {
+          //check for post owner
+          if (post.user.toString() !== req.user.id) {
+            return res
+              .status(401)
+              .json({ notauthorized: "User not authorized!" });
+          }
+          post.remove().then(() => {
+            res.json({ success: true });
+          });
+        })
+        .catch(err => res.status(404).json({ postnotfound: "No Post found" }));
     });
   }
 );
