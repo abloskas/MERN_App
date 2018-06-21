@@ -19,14 +19,15 @@ const User = require("../../models/User");
 // @access Public route
 router.get("/test", (req, res) => res.json({ msg: "Profile works" }));
 
-// @route  GET api/proile/
-// @desc   Get current user's profile
-// @access Private route
+// @route   GET api/profile
+// @desc    Get current users profile
+// @access  Private
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
+
     Profile.findOne({ user: req.user.id })
       .populate("user", ["name", "avatar"])
       .then(profile => {
