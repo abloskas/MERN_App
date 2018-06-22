@@ -138,7 +138,7 @@ class AddExperience extends Component {
                 />
                 <input
                   type="submit"
-                  className="btn btn-info btn-block"
+                  className="btn btn-warning btn-block"
                   value="Submit"
                 />
               </form>
